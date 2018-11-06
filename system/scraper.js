@@ -1,7 +1,7 @@
 const puppeteer = require('puppeteer');
-const fs = require('fs');
+const logger = require('./logger');
 
-let url = '';
+let url = 'https://www.actcorp.in/customer-care';
 let emails = [];
 
 function extractEmails(str) {
@@ -9,19 +9,21 @@ function extractEmails(str) {
 }
 
 (async() => {
-    const browser = await puppeteer.launch();
+    const browser = await puppeteer.launch({
+        headless: false,
+        args: ['--no-sandbox']
+    });
+
     const page = await browser.newPage();
 
+    logger.web_log('Connecting...', url, {Font:'Yellow'});
     await page.goto(url, {
         waitUntil: 'networkidle2'
     });
 
-    await page.evaluate(() => {
-        let html = document.body.innerHTML;
-        emails.concat(extractEmails(html));
-    });
+    /*await page.evaluate(() => {
+        return document;
+    });*/
 
-    //fs.writeFileSync('problem_meta.json', json_str, 'utf8');
-
-    await browser.close();
+    //await browser.close();
 })();
