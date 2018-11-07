@@ -3,14 +3,17 @@ const util = require('util');
 const debug = util.debuglog('cli');
 const events = require('events')
 
+const logger = require('./logger');
+const script = require('../script');
+
 class _events extends events {};
 
 let e = new _events();
 
 let cli = {};
 
-e.on('man', (str) => {
-    cli.responders.man();
+e.on('start', (str) => {
+    cli.responders.start(str);
 })
 
 e.on('help', (str) => {
@@ -19,12 +22,16 @@ e.on('help', (str) => {
 
 cli.responders = {};
 
-cli.responders.man = () => {
-    console.log('MAN command')
+cli.responders.start = (str) => {
+    console.log(str)
+    let arr = str.split(' ');
+    logger.log('Starting script: ' + arr[1], {Font:'Yellow'})
+    script[arr[1]]();
 }
 
 cli.responders.help = () => {
-    console.log('HELP command')
+    console.log('Start a scraper script')
+    console.log('Start [script name]')
 }
 
 cli.processInput = (str) => {
@@ -32,7 +39,7 @@ cli.processInput = (str) => {
     str = typeof(str) == 'string' && str.trim().length > 0 ? str.trim() : false;
 
     if (str) {
-        let uniqueInput = ['man', 'help'];
+        let uniqueInput = ['start', 'help'];
 
         let matchFound = false;
         let counter = 0;
@@ -76,13 +83,5 @@ cli.init = () => {
     });
 
 }
-
-
-
-
-
-
-
-
 
 module.exports = cli;

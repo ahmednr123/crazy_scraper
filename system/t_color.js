@@ -1,5 +1,3 @@
-const logger = require('./logger');
-
 const t_color = {};
 
 t_color.Reset = "\x1b[0m"
@@ -36,12 +34,10 @@ t_color.makeBackground = (color) => {
     return t_color['Bg' + color] + '%s' + t_color.Reset;
 }
 
-t_color.make = (FgColor, BgColor) => {
-    if (!FgColor || !BgColor) {
-        logger.log('[DEBUG] t_color.make() : Wrong Input Arguments', {Font: 'Red',Background: 'White'});
-        return;
-    }
-    return t_color['Fg' + FgColor] + t_color['Bg' + BgColor] + '%s' + t_color.Reset;
+t_color.make = (Color) => {
+    if (!Color) return "";
+
+    return (Color.Font ? t_color['Fg' + Color.Font] : "") + (Color.Background ? t_color['Bg' + Color.Background] : "") + '%s' + t_color.Reset;
 }
 
 module.exports = t_color;

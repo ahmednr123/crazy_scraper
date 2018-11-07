@@ -1,7 +1,7 @@
 const fs = require('fs');
 const t_color = require('./t_color')
-const sys_log_file = fs.createWriteStream('./logs/system.log', {
-    flags: 'a',
+const sys_log_file = fs.createWriteStream(__dirname + '/logs/system.log', {
+    flags: 'a+',
     AutoClose: true
 });
 
@@ -40,15 +40,14 @@ logger.web_log = (log_data, url, Color) => {
     logger.log(log_data, Color);
 }
 
-logger.log_arr = (log_data) => {
+logger.log_arr = (helper, log_data) => {
     if (!log_data.isArray) {
         logger.log('[DEBUG] log_arr() : Expected Array, but found ' + typeof(log_data), {Font: 'Red',Background: 'White'});
         return;
     }
 
-    for (let line of log_data) {
-        line = timeStamp() + line;
-        logger.log(line);
+    for (let i = 0; i < log_data.length; i++){
+        logger.log(helper + " " + log_data[i]);
     }
 }
 
@@ -59,16 +58,8 @@ logger.log = (log_data, Color) => {
     }
 
     log_data = timeStamp() + log_data;
-    t_color.make(Color.Font);
 
-    if (Color.Font && Color.Background)
-        console.log(t_color.make(Color.Font, Color.Background), log_data);
-    else if (Color.Font)
-        console.log(t_color.makeFont(Color.Font), log_data);
-    else if (Color.Background)
-        console.log(t_color.makeBackground(Color.Background), log_data);
-    else
-        console.log(timeStamp() + log_data);
+    console.log(t_color.make(Color), log_data);
 
     logger.log_raw(log_data, false);
 }
