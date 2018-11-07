@@ -1,17 +1,19 @@
 const utils = require('./system/utils')
-const Scraper = require('./system/scraper')
+const sc = require('./system/scraper')
 
 const script = {}
 
-script.email_extractor = () => {
+script.ex = async() => {
 	let url = 'https://www.actcorp.in/customer-care';
 	
-	const sc = new Scraper();
-	sc.goto(url);
+	await sc.init();
 	
-	document = sc.document;
+	await sc.goto(url);
 
-	let html = document.body.innerHTML;
+	//document = sc.document;
+
+	let html = sc.document.body.innerHTML;
+	console.log('YOLO');
 
 	logger.log_arr("Extracted", utils.extractEmails(html));
 }
