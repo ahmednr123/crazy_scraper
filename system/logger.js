@@ -1,5 +1,9 @@
 const fs = require('fs');
 const t_color = require('./t_color')
+
+if (!fs.existsSync(__dirname + '/logs'))
+    fs.mkdirSync(__dirname + '/logs');
+
 const sys_log_file = fs.createWriteStream(__dirname + '/logs/system.log', {
     flags: 'a+',
     AutoClose: true
@@ -40,14 +44,14 @@ logger.web_log = (log_data, url, Color) => {
     logger.log(log_data, Color);
 }
 
-logger.log_arr = (helper, log_data) => {
+logger.log_arr = (helper, log_data, Color) => {
     if (!log_data.isArray) {
         logger.log('[DEBUG] log_arr() : Expected Array, but found ' + typeof(log_data), {Font: 'Red',Background: 'White'});
         return;
     }
 
     for (let i = 0; i < log_data.length; i++){
-        logger.log(helper + " " + log_data[i]);
+        logger.log(helper + " " + log_data[i], Color);
     }
 }
 

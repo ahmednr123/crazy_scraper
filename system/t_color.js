@@ -35,9 +35,9 @@ t_color.makeBackground = (color) => {
 }
 
 t_color.make = (Color) => {
-    if (!Color) return "";
+    if (!Color) return t_color['FgWhite'] + '%s' + t_color.Reset;
 
-    return (Color.Font ? t_color['Fg' + Color.Font] : "") + (Color.Background ? t_color['Bg' + Color.Background] : "") + '%s' + t_color.Reset;
+    return (Color.Font ? t_color['Fg' + Color.Font] : '') + (Color.Background ? t_color['Bg' + Color.Background] : '') + '%s' + t_color.Reset;
 }
 
 module.exports = t_color;
