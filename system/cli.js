@@ -1,10 +1,10 @@
 const readline = require('readline');
 const util = require('util');
 const debug = util.debuglog('cli');
-const events = require('events')
+const events = require('events');
 
 const logger = require('./logger');
-const t_color = require('./t_color')
+const t_color = require('./t_color');
 const script = require('../script');
 
 class _events extends events {};
