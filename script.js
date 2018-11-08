@@ -6,6 +6,8 @@ const script = {}
 
 script.ex = async() => {
 
+	let search_term = await utils.input("Enter the search term: ");
+
 	let url = 'https://www.actcorp.in/customer-care';
 	
 	await sc.init();

@@ -4,6 +4,7 @@ const debug = util.debuglog('cli');
 const events = require('events')
 
 const logger = require('./logger');
+const t_color = require('./t_color')
 const script = require('../script');
 
 class _events extends events {};
@@ -22,28 +23,32 @@ e.on('help', (str) => {
     cli.responders.help();
 })
 
-e.on('_prompt', () => {
-    if(_interface)
-        _interface.prompt();
-})
-
 e.on('quit', () => {
     process.exit(0);
 })
+
+function has(object, key) {
+  return object ? hasOwnProperty.call(object, key) : false;
+}
 
 cli.responders = {};
 
 cli.responders.start = async (str) => {
     let arr = str.split(' ');
-    logger.log('Starting script: ' + arr[1], {Font:'Yellow'})
-    await script[arr[1]]();
-    e.emit('_prompt');
+    
+    if(has(script, arr[1])){
+        logger.log('Starting script: ' + arr[1], {Font:'Yellow'})
+        await script[arr[1]]();
+    } else
+        console.log(t_color.make({Font:'Red', Background:'White'}) , "Script '"+arr[1]+"' not found")
+
+    makePrompt();
 }
 
 cli.responders.help = () => {
     console.log('Start a scraper script')
     console.log('Start [script name]')
-    e.emit('_prompt');
+    makePrompt();
 }
 
 cli.processInput = (str) => {
@@ -64,16 +69,21 @@ cli.processInput = (str) => {
             }
         })
 
-        if (!matchFound)
-            console.log('Sorry, try again!')
+        if (!matchFound){
+            console.log('Sorry, try again!');
+            makePrompt();
+        }
 
     }
 }
 
 cli.init = () => {
+    console.log(t_color.make({Font:'Cyan'}), "The CLI is running")
 
-    console.log('\x1b[34m%s\x1b[0m', "The CLI is running")
+    makePrompt();
+}
 
+function makePrompt() {
     _interface = readline.createInterface({
         input: process.stdin,
         output: process.stdout,
@@ -83,17 +93,10 @@ cli.init = () => {
     _interface.prompt();
 
     _interface.on('line', (str) => {
-
-        _interface.pause();
         console.log();
-        
+        _interface.close();
         cli.processInput(str);
     });
-
-    _interface.on('close', () => {
-        process.exit(0);
-    });
-
 }
 
 module.exports = cli;

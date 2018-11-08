@@ -26,14 +26,6 @@ t_color.BgMagenta = "\x1b[45m"
 t_color.BgCyan = "\x1b[46m"
 t_color.BgWhite = "\x1b[47m"
 
-t_color.makeFont = (color) => {
-    return t_color['Fg' + color] + '%s' + t_color.Reset;
-}
-
-t_color.makeBackground = (color) => {
-    return t_color['Bg' + color] + '%s' + t_color.Reset;
-}
-
 t_color.make = (Color) => {
     if (!Color) return t_color['FgWhite'] + '%s' + t_color.Reset;
 
