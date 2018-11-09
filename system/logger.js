@@ -46,18 +46,33 @@ logger.web_log = (log_data, url, Color) => {
 
 logger.log_arr = (helper, log_data, Color) => {
     if (!log_data.isArray) {
-        logger.log('[DEBUG] log_arr() : Expected Array, but found ' + typeof(log_data), {Font: 'Red',Background: 'White'});
+        /*logger.log('[DEBUG] log_arr() : Expected Array, but found ' + typeof(log_data), {
+            Font: 'Red',
+            Background: 'White'
+        });*/
+        logger.err('log_arr() : Expected Array, but found ' + typeof(log_data));
         return;
     }
 
-    for (let i = 0; i < log_data.length; i++){
+    for (let i = 0; i < log_data.length; i++) {
         logger.log(helper + " " + log_data[i], Color);
     }
 }
 
+logger.err = (log_data) => {
+    if (log_data.length == 0) return;
+    logger.log('[DEBUG] ' + log_data, {
+        Font: 'Red',
+        Background: 'White'
+    });
+}
+
 logger.log = (log_data, Color) => {
     if (typeof(log_data) != 'string') {
-        logger.log('[DEBUG] log() : Expected String, but found ' + typeof(log_data), {Font: 'Red',Background: 'White'});
+        logger.log('[DEBUG] log() : Expected String, but found ' + typeof(log_data), {
+            Font: 'Red',
+            Background: 'White'
+        });
         return;
     }
 
