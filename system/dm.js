@@ -1,11 +1,10 @@
 // Data Manager
-
 const fs = require('fs');
 
 if (!fs.existsSync(__dirname + '/data'))
     fs.mkdirSync(__dirname + '/data');
 
-const _meta = fs.readFileSync('.dm_meta').split('\n');
+const _meta = fs.readFileSync(__dirname + '/data/.dm_meta').split('\n');
 const handles_meta = _meta.slice(1, _meta.length);
 const handles = handles_meta.map((line) => {
     return line.split(' ')[0];
@@ -14,10 +13,9 @@ const handles = handles_meta.map((line) => {
 function compare_array(arr1, arr2) {
     if (arr1.length != arr2.length) return false;
 
-    for (let i = 0; i < arr1.length; i++) {
-        if (arr1[i] !== arr2[i])
+    for (let i = 0; i < arr1.length; i++)
+        if (!arr2.contains(arr1[i]))
             return false;
-    }
 
     return true;
 }
@@ -38,7 +36,7 @@ dm.createHandle = (name, meta) => {
     })
 
     if (found) {
-        logger.err('Data Handle name already exists')
+        logger.err('Data Handle name already exists');
         return;
     }
 
@@ -68,7 +66,7 @@ dm.addData = (handle, data) => {
     })
 
     if (!found) {
-        logger.err('Data Handle doesnt exist')
+        logger.err('Data Handle doesnt exist');
         return;
     }
 
