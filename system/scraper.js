@@ -7,9 +7,7 @@ const scraper = {}
 
 scraper.browser = null;
 scraper.page = null;
-
 scraper.document = null;
-
 scraper.bodyHTML = null;
 
 scraper.init = async() => {

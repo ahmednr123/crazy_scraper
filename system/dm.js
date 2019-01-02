@@ -89,7 +89,11 @@ dm.addData = (handle, data) => {
     }
 
     if (!fs.existsSync(__dirname + '/data/' + handle + '.dm')) {
-
+ 
     }
 
+}
+
+dm.pop = (handle) => {
+    let 
 }

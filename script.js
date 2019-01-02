@@ -8,6 +8,9 @@ const script = {}
 
 script.ex = async() => {
 
+	this.name = 'Email Extractor'
+	this.desc = 'Simple email extractor with link scraping upto 20 levels deep, using the serach engine duckduckgo'
+
 	let search_term = await utils.input("Enter the search term: ");
 	search_term = search_term.trim();
 
@@ -27,7 +30,6 @@ script.ex = async() => {
 	let result_json = await sc.page.evaluate(() => {
 		let results = document.getElementsByClassName('result__body');
 		
-		//return results[0].getElementsByClassName('result__a')[0].textContent + results[0].getElementsByClassName('result__a')[0].getAttribute('href');
 		let final_out = [];
 
 		for(let i = 0; i < results.length; i++){

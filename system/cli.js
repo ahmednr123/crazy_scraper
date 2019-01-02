@@ -23,6 +23,10 @@ e.on('help', (str) => {
     cli.responders.help();
 })
 
+e.on('scripts', (str) => {
+    cli.responders.scripts();
+})
+
 e.on('quit', () => {
     process.exit(0);
 })
@@ -51,12 +55,19 @@ cli.responders.help = () => {
     makePrompt();
 }
 
+cli.responders.scripts = () => {
+    for(let sc in script){
+        console.log(script[sc].name);
+    }
+    makePrompt();
+}
+
 cli.processInput = (str) => {
 
     str = typeof(str) == 'string' && str.trim().length > 0 ? str.trim() : false;
 
     if (str) {
-        let uniqueInput = ['start', 'help', 'quit'];
+        let uniqueInput = ['start', 'help', 'quit', 'scripts'];
 
         let matchFound = false;
         let counter = 0;
