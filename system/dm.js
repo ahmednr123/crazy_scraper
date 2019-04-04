@@ -34,24 +34,44 @@ var rmDir = function(dir, rmSelf) {
 const d_data = '/data'
 const d_dm_meta = d_data + "/.dm_meta"
 
-if (!fs.existsSync(__dirname + d_data))
+if (!fs.existsSync(__dirname + d_data)){
     fs.mkdirSync(__dirname + d_data);
+    fs.writeFile(__dirname + d_data, "0\n")
+}
 
-const _meta_data = fs.readFileSync(__dirname + d_dm_meta).split('\n');
+let _meta_data = fs.readFileSync(__dirname + d_dm_meta).toString()
+_meta_data = _meta_data.split('\n');
+console.log(JSON.stringify(_meta_data));
 
 const _meta = {}
-_meta.handles = _meta_data[0]
-_meta.handles_meta_raw = _meta_data.slice(1, _meta.length)
+_meta.handles = parseInt(_meta_data[0])
 
-_meta.handles_meta = _meta.handles_meta_raw.map((line) => {
-    line = line.split(" ")
+_meta.handles_meta_raw = []
+_meta.handles_meta = {}
 
-    let json = {}
-    json.name = line[0]
-    json.meta = line.slice(1, line.length)
+if (_meta.handles > 0) {
+    // Removing extra \r\n
+    _meta.handles_meta_raw = _meta_data.slice(1, _meta_data.length).map((el) => {
+        return el.replace(/(\r\n|\n|\r)/gm, "");
+    })
 
-    return json;//line.split(' ')[0];
-})
+    _meta.handles_meta = _meta.handles_meta_raw.map((line) => {
+        line = line.split(" ")
+
+        let json = {}
+        json.name = line[0]
+        json.meta = line.slice(1, line.length)
+
+        return json;//line.split(' ')[0];
+    })
+}
+
+
+console.log(_meta.handles)
+console.log(_meta.handles_meta_raw)
+console.log(_meta.handles_meta)
+
+
 
 function compare_array(arr1, arr2) {
     if (arr1.length != arr2.length) return false;
