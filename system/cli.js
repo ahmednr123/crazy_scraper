@@ -56,9 +56,8 @@ cli.responders.help = () => {
 }
 
 cli.responders.scripts = () => {
-    for(let sc in script){
+    for(let sc in script)
         console.log(script[sc].name);
-    }
     makePrompt();
 }
 
@@ -90,7 +89,6 @@ cli.processInput = (str) => {
 
 cli.init = () => {
     console.log(t_color.make({Font:'Cyan'}), "The CLI is running")
-
     makePrompt();
 }
 

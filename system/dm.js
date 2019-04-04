@@ -178,6 +178,11 @@ dm.addData = (data) => {
 
 }
 
-dm.pop = (handle) => {
-    let 
+// CLAUSE: [name]=[value] | [name]=[value] & [name]=[value]
+dm.findId = (clause) => {
+    
+}
+
+dm.getData = (id, data_field) => {
+    
 }
